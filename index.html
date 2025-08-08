@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>OHKA21 — HTML & CSS Only</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* GANTI BACKGROUND DI SINI (satu baris) */
+    --bg-image: url('');
+    --accent: #ffffff;
+    --glass: rgba(255,255,255,0.10);
+    --card: rgba(255,255,255,0.06);
+    --maxw: 1200px;
+    --frame-aspect: 16/9;
+  }
+
+  /* Basic reset */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;font-family:'Poppins',sans-serif;background:#000;color:var(--accent);-webkit-font-smoothing:antialiased}
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background:var(--bg-image) center/cover no-repeat;
+    z-index:-2;
+    transform:translateZ(0);
+  }
+  body::after{ content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; } /* no dark overlay */
+
+  /* App frame (16:9 feel) */
+  .frame{
+    width:94vw; max-width:var(--maxw); margin:3vh auto;
+    aspect-ratio: var(--frame-aspect);
+    display:grid; grid-template-rows:auto 1fr; gap:12px;
+    padding:18px; border-radius:12px; overflow:hidden;
+    background:linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.02));
+    box-shadow:0 18px 40px rgba(0,0,0,0.45);
+  }
+
+  header{display:flex;align-items:center;justify-content:space-between; gap:12px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#6ad1ff,#9b7bff);display:flex;align-items:center;justify-content:center;color:#061126;font-weight:800}
+  .title{font-weight:700}
+  nav{display:flex;gap:8px}
+  nav a{display:inline-block;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.06);color:var(--accent);text-decoration:none;font-weight:600}
+
+  .content{display:grid;grid-template-columns:1fr 320px;gap:16px;height:100%;overflow:hidden}
+  .main{overflow:auto;padding-right:8px}
+  .aside{min-width:260px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+
+  /* Pages via :target. Default show #home */
+  section.page{display:none;opacity:0;transform:translateY(8px);transition:opacity .22s,transform .22s}
+  :target.page{display:block;opacity:1;transform:translateY(0)}
+  /* initial if no hash */
+  body:not(:target) #home.page{display:block;opacity:1;transform:translateY(0)}
+
+  /* Auth glass box (blur only here) */
+  .auth{
+    max-width:560px;margin:6vh auto;padding:18px;border-radius:14px;background:var(--glass);backdrop-filter: blur(8px);
+    box-shadow:0 14px 36px rgba(0,0,0,0.45);
+  }
+  .auth h2{margin-bottom:6px}
+  .field{display:block;width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:var(--accent);margin:8px 0}
+
+  /* Cards and grids */
+  .card{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.35)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:10px}
+  .item{padding:10px;border-radius:10px;background:rgba(255,255,255,0.03);text-align:center}
+  .price{font-weight:800;margin-top:8px}
+
+  /* Avatar */
+  .avatar{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,#ffd6e7,#b6d9ff);display:flex;align-items:center;justify-content:center;font-weight:800;color:#061126}
+
+  /* Rank display */
+  .rank-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;background:rgba(255,255,255,0.03)}
+  .stars{color:gold;font-size:18px}
+
+  /* mobile */
+  @media (max-width:920px){
+    .frame{width:96vw;padding:12px;aspect-ratio:auto}
+    .content{grid-template-columns:1fr;align-items:start}
+    .aside{order:2}
+    .main{order:1}
+  }
+
+  /* small utility */
+  .muted{opacity:0.9;font-size:13px;color:rgba(255,255,255,0.9)}
+  footer{display:flex;justify-content:space-between;align-items:center;padding-top:8px;font-size:13px;color:rgba(255,255,255,0.85)}
+</style>
+</head>
+<body>
+
+<div class="frame" role="application" aria-label="OHKA21 UI">
+  <header>
+    <div class="brand">
+      <div class="logo">OH</div>
+      <div>
+        <div class="title">OHKA21 Cyber Academi</div>
+        <div class="muted">Blue Team • Red Team — </div>
+      </div>
+    </div>
+
+    <nav aria-label="Main navigation">
+      <!-- Use anchor hashes to switch pages (CSS-only) -->
+      <a href="#home">Home</a>
+      <a href="#kelas">Kelas</a>
+      <a href="#market">Marketplace</a>
+      <a href="#profil">Profil</a>
+    </nav>
+  </header>
+
+  <div class="content">
+    <main class="main">
+      <!-- HOME (auth) -->
+      <section id="home" class="page" aria-labelledby="home-title">
+        <div class="auth" role="form">
+          <h2 id="home-title">Masuk / Daftar</h2>
+          <p class="muted">daftar disini</p>
+
+          <label class="muted" for="username">Username</label>
+          <input id="username" class="field" type="text" placeholder="Masukkan username">
+
+          <label class="muted" for="email">Email (opsional)</label>
+          <input id="email" class="field" type="email" placeholder="name@example.com">
+
+          <label class="muted" for="password">Password</label>
+          <input id="password" class="field" type="password" placeholder="Minimal 4 karakter">
+
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <a href="#kelas" class="field" style="text-align:center;text-decoration:none;background:rgba(255,255,255,0.06);padding:10px;border-radius:10px;color:var(--accent);">Login</a>
+            <a href="#kelas" class="field" style="text-align:center;text-decoration:none;background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px;border-radius:10px;color:var(--accent);">Register</a>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <span class="muted">Top-up:</span>
+            <span class="field" style="display:inline-block;width:auto;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.03)">Rp 100.000</span>
+            <span class="field" style="display:inline-block;width:auto;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.03)">Rp 500.000</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- KELAS -->
+      <section id="kelas" class="page" aria-labelledby="kelas-title">
+        <h2 id="kelas-title">Kelas OHKA21</h2>
+        <p class="muted">7 Kelas Blue Team & 8 Kelas Red Team. Harga tampilan 250.000–800.000.</p>
+
+        <div style="margin-top:12px">
+          <h3 style="margin-bottom:8px">Blue Team</h3>
+          <div class="grid">
+            <div class="item"><strong>Blue Recon</strong><div class="muted">Team: Blue</div><div class="price">Rp 250.000</div></div>
+            <div class="item"><strong>Blue Network Defense</strong><div class="muted">Team: Blue</div><div class="price">Rp 300.000</div></div>
+            <div class="item"><strong>Blue Web Security</strong><div class="muted">Team: Blue</div><div class="price">Rp 350.000</div></div>
+            <div class="item"><strong>Blue Forensics</strong><div class="muted">Team: Blue</div><div class="price">Rp 400.000</div></div>
+            <div class="item"><strong>Blue SIEM</strong><div class="muted">Team: Blue</div><div class="price">Rp 450.000</div></div>
+            <div class="item"><strong>Blue Malware Analysis</strong><div class="muted">Team: Blue</div><div class="price">Rp 500.000</div></div>
+            <div class="item"><strong>Blue SOC Ops</strong><div class="muted">Team: Blue</div><div class="price">Rp 600.000</div></div>
+          </div>
+        </div>
+
+        <div style="margin-top:18px">
+          <h3 style="margin-bottom:8px">Red Team</h3>
+          <div class="grid">
+            <div class="item"><strong>Red Recon</strong><div class="muted">Team: Red</div><div class="price">Rp 300.000</div></div>
+            <div class="item"><strong>Red Exploitation</strong><div class="muted">Team: Red</div><div class="price">Rp 350.000</div></div>
+            <div class="item"><strong>Red Web Pentest</strong><div class="muted">Team: Red</div><div class="price">Rp 400.000</div></div>
+            <div class="item"><strong>Red Wireless</strong><div class="muted">Team: Red</div><div class="price">Rp 450.000</div></div>
+            <div class="item"><strong>Red PrivEsc</strong><div class="muted">Team: Red</div><div class="price">Rp 500.000</div></div>
+            <div class="item"><strong>Red Advanced Exploit</strong><div class="muted">Team: Red</div><div class="price">Rp 600.000</div></div>
+            <div class="item"><strong>Red C2 Ops</strong><div class="muted">Team: Red</div><div class="price">Rp 700.000</div></div>
+            <div class="item"><strong>Red Social Engineering</strong><div class="muted">Team: Red</div><div class="price">Rp 800.000</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MARKETPLACE -->
+      <section id="market" class="page" aria-labelledby="market-title">
+        <h2 id="market-title">Marketplace</h2>
+        <p class="muted">Warna nama, Rank (dengan bintang), dan upload avatar (statik — form non-fungsional di HTML-only).</p>
+
+        <div style="margin-top:12px">
+          <h4>Warna Nama</h4>
+          <div class="grid">
+            <div class="item"><div style="height:36px;border-radius:6px;background:#111827;margin-bottom:8px"></div><strong>Hitam Gelap</strong><div class="price">Rp 25.000</div></div>
+            <div class="item"><div style="height:36px;border-radius:6px;background:#D4AF37;margin-bottom:8px"></div><strong>Gold</strong><div class="price">Rp 75.000</div></div>
+            <div class="item"><div style="height:36px;border-radius:6px;background:#00E5FF;margin-bottom:8px"></div><strong>Cyan</strong><div class="price">Rp 50.000</div></div>
+            <div class="item"><div style="height:36px;border-radius:6px;background:#FF7AB6;margin-bottom:8px"></div><strong>Sakura Pink</strong><div class="price">Rp 50.000</div></div>
+            <div class="item"><div style="height:36px;border-radius:6px;background:#FF4D4F;margin-bottom:8px"></div><strong>Merah</strong><div class="price">Rp 45.000</div></div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <h4>Ranks</h4>
+          <div class="grid">
+            <div class="item"><strong>Bronze</strong><div class="muted">★</div><div class="price">Rp 50.000</div></div>
+            <div class="item"><strong>Silver</strong><div class="muted">★★</div><div class="price">Rp 100.000</div></div>
+            <div class="item"><strong>Gold</strong><div class="muted">★★★</div><div class="price">Rp 200.000</div></div>
+            <div class="item"><strong>Diamond</strong><div class="muted">★★★★</div><div class="price">Rp 400.000</div></div>
+            <div class="item"><strong>Legend</strong><div class="muted">★★★★★</div><div class="price">Rp 700.000</div></div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <h4>Avatar (Upload)</h4>
+          <div class="card" style="display:flex;gap:10px;align-items:center">
+            <div class="avatar" style="width:84px;height:84px;border-radius:10px;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22><rect width=%2272%22 height=%2272%22 fill=%22%23ffd6e7%22/></svg>');background-size:cover"></div>
+            <div>
+              <p class="muted">Upload avatar dari perangkat — di tampilan statis ini tidak berfungsi, namun disediakan form sebagai mockup.</p>
+              <input type="file" class="field" disabled>
+              <div class="muted" style="margin-top:6px">Contoh: ganti URL avatar manual di kode jika ingin menampilkan foto.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROFIL -->
+      <section id="profil" class="page" aria-labelledby="profil-title">
+        <h2 id="profil-title">Profil</h2>
+
+        <div class="card" style="display:flex;gap:12px;align-items:center">
+          <div class="avatar" style="width:96px;height:96px;border-radius:12px;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2296%22 height=%2296%22><rect width=%2296%22 height=%2296%22 fill=%22%23ffd6e7%22/></svg>');background-size:cover"></div>
+          <div>
+            <div style="font-weight:700;font-size:18px">Nama Pengguna</div>
+            <div class="muted">email@example.com</div>
+            <div style="margin-top:8px">
+              <span class="rank-badge">Rank: <strong style="margin-left:6px">GOD</strong> <span class="stars" style="margin-left:8px">★★★★★★</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <div style="font-weight:700">Kelas yang diikuti</div>
+          <ul style="margin-top:8px">
+            <li class="muted">Blue Web Security</li>
+            <li class="muted">Red Recon</li>
+          </ul>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <div style="font-weight:700">Riwayat Pembelian</div>
+          <ul style="margin-top:8px" class="muted">
+            <li>Top-up — Rp 500.000 — 01/01/2025</li>
+            <li>Beli Rank Gold — Rp 200.000 — 01/01/2025</li>
+          </ul>
+        </div>
+
+      </section>
+    </main>
+
+    <aside class="aside">
+      <div class="card">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="avatar" style="width:64px;height:64px">OH</div>
+        
+          <div>
+            <div style="font-weight:700">OHKA21</div>
+            <div class="muted">Saldo: Rp 10.000.000</div>
+          </div>
+        </div>
+        <div style="margin-top:12px" class="muted">Pembayaran via: Dana / GoPay — <strong>+6285606213297</strong></div>
+      </div>
+
+      <div class="card">
+        <div style="font-weight:700">panduan</div>
+        <p class="muted" style="margin-top:8px">belajar debgan giat <code>agar impian</code> tercapai</p>
+      </div>
+
+      <div class="card">
+        <div style="font-weight:700">Navigasi Cepat</div>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+          <a href="#home" class="muted" style="text-decoration:none;background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:8px">Home</a>
+          <a href="#kelas" class="muted" style="text-decoration:none;background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:8px">Kelas</a>
+          <a href="#market" class="muted" style="text-decoration:none;background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:8px">Marketplace</a>
+          <a href="#profil" class="muted" style="text-decoration:none;background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:8px">Profil</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <div class="muted">OHKA21 —</div>
+    <div class="muted">100% di coding oleh OHKA21</div>
+  </footer>
+</div>
+
+</body>
+</html>

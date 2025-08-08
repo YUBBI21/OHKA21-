@@ -1,2 +1,0 @@
-# OHKA21-
-pertama 
